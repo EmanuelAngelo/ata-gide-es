@@ -62,13 +62,13 @@ CORS_ALLOWED_ORIGINS = config(
         'http://127.0.0.1:5173',
         'http://localhost:3000',
         'http://127.0.0.1:3000',
-        'https://ata-gideoes-frontend.vercel.app',
+        'https://ata-gideoes.vercel.app',
     ]),
     cast=csv_list,
 )
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
-    r'^https://ata-gideoes-frontend.*\.vercel\.app$',
+    r'^https://ata-gideoes.*\.vercel\.app$',
 ]
 
 
