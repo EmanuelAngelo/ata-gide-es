@@ -173,7 +173,7 @@
     {
       title: 'Membros cadastrados',
       value: moduleCounts.value.members ?? 0,
-      description: 'Total real de membros disponíveis no backend.',
+      description: 'Total real de membros disponíveis.',
       icon: 'mdi mdi-account-group-outline',
     },
     {

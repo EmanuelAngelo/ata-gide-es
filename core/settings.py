@@ -39,6 +39,8 @@ default_allowed_hosts = [
     '127.0.0.1',
     'ata-gideoes.vercel.app',
     '.vercel.app',
+    'https://emanuelcoutinho.pythonanywhere.com/',
+    'emanuelcoutinho.pythonanywhere.com',
 ]
 
 ALLOWED_HOSTS = config(

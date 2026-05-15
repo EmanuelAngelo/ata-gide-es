@@ -19,7 +19,6 @@
 
         <div class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-4">
           <p class="text-sm font-medium text-white">{{ username || 'Usuário autenticado' }}</p>
-          <p class="mt-1 text-sm text-slate-400">Conectado via Django JWT</p>
         </div>
 
         <nav class="mt-8 flex-1 space-y-2">
