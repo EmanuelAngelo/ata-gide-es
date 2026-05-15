@@ -39,7 +39,6 @@ default_allowed_hosts = [
     '127.0.0.1',
     'ata-gideoes.vercel.app',
     '.vercel.app',
-    'https://emanuelcoutinho.pythonanywhere.com/',
     'emanuelcoutinho.pythonanywhere.com',
 ]
 
@@ -51,7 +50,11 @@ ALLOWED_HOSTS = config(
 
 CSRF_TRUSTED_ORIGINS = config(
     'DJANGO_CSRF_TRUSTED_ORIGINS',
-    default='https://ata-gideoes.vercel.app,https://*.vercel.app',
+    default=','.join([
+        'https://ata-gideoes.vercel.app',
+        'https://*.vercel.app',
+        'https://emanuelcoutinho.pythonanywhere.com',
+    ]),
     cast=csv_list,
 )
 
@@ -92,8 +95,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

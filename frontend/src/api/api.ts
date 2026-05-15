@@ -19,7 +19,7 @@ type ApiRequestOptions = Omit<RequestInit, 'body'> & {
   token?: string | null
 }
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/$/, '') || 'http://127.0.0.1:8000'
+const API_BASE_URL = 'https://emanuelcoutinho.pythonanywhere.com'
 
 export function buildUrl(path: string) {
   if (/^https?:\/\//i.test(path)) {
