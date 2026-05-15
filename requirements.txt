@@ -1,0 +1,9 @@
+django>=4.2
+djangorestframework>=3.14
+django-cors-headers
+django-filter
+djangorestframework-simplejwt
+dj-database-url
+psycopg[binary]
+python-decouple
+reportlab
