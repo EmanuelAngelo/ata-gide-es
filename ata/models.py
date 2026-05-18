@@ -173,6 +173,40 @@ class PartnerChurch(TimestampedModel):
 		return self.name
 
 
+class GideonFriend(TimestampedModel):
+	class Status(models.TextChoices):
+		ATIVO = 'Ativo'
+		INATIVO = 'Inativo'
+		PENDENTE = 'Pendente'
+	
+	full_name = models.CharField(max_length=200)
+	phone = models.CharField(max_length=20, blank=True)
+	email = models.EmailField(blank=True)
+	address = models.CharField(max_length=300, blank=True)
+	neighborhood = models.CharField(max_length=100, blank=True)
+	city = models.CharField(max_length=100)
+
+	contacted_by = models.ForeignKey(
+		Member,
+		on_delete=models.SET_NULL,
+		related_name='gideon_friends_contacted',
+		null=True,
+		blank=True,
+		verbose_name='Gideão/Auxiliar responsável',
+	)
+	donation_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+	became_friend_date = models.DateField(verbose_name='Data de se tornar Amigo do Gideão')
+	status = models.CharField(max_length=20, choices=Status.choices, default=Status.ATIVO)
+	observations = models.TextField(blank=True)
+
+	class Meta:
+		ordering = ['full_name']
+		verbose_name = 'Amigo do Gideão'
+		verbose_name_plural = 'Amigos do Gideão'
+	
+	def __str__(self) -> str:
+		return self.full_name
+
 class ChurchSchedule(TimestampedModel):
 	class CommitmentType(models.TextChoices):
 		REUNIAO = 'Reunião'

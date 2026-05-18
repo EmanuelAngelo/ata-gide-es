@@ -1,6 +1,6 @@
 import django_filters
 
-from .models import Attendance, ChurchSchedule, Meeting, Member, Minutes, PartnerChurch
+from .models import Attendance, ChurchSchedule, Meeting, Member, Minutes, PartnerChurch, GideonFriend
 
 
 class MemberFilter(django_filters.FilterSet):
@@ -56,6 +56,19 @@ class PartnerChurchFilter(django_filters.FilterSet):
             'city': ['exact'],
         }
 
+
+class GideonFriendFilter(django_filters.FilterSet):
+    contacted_by_id = django_filters.NumberFilter(field_name='contacted_by_id')
+    contacted_by_classification = django_filters.CharFilter(field_name='contacted_by__classification')
+
+    class Meta:
+        model = GideonFriend
+        fields = {
+            'status': ['exact'],
+            'city': ['exact'],
+            'became_friend_date': ['exact', 'gte', 'lte'],
+            'donation_amount': ['exact', 'gte', 'lte'],
+        }
 
 class ChurchScheduleFilter(django_filters.FilterSet):
     church_id = django_filters.NumberFilter(field_name='church_id')

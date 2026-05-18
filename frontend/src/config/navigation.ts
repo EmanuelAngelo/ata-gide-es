@@ -5,6 +5,7 @@ export type AppRouteName =
   | 'minutes'
   | 'attendances'
   | 'partner-churches'
+  | 'gideon-friends'
   | 'church-schedules'
 
 export type NavigationItem = {
@@ -57,4 +58,10 @@ export const navigationItems: NavigationItem[] = [
     icon: 'mdi mdi-church-outline',
     description: 'Cadastro de igrejas parceiras',
   },
+  {
+  key: 'gideon-friends',
+  label: 'Amigo do Gideão',
+  icon: 'mdi mdi-hand-heart-outline',
+  description: 'Cadastro dos amigos, doações e vínculo com Gideões/Auxiliares',
+},
 ]

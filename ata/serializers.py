@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Attendance, ChurchSchedule, Meeting, Member, Minutes, PartnerChurch
+from .models import Attendance, ChurchSchedule, Meeting, Member, Minutes, PartnerChurch, GideonFriend
 
 
 class MemberSerializer(serializers.ModelSerializer):
@@ -119,6 +119,46 @@ class PartnerChurchSerializer(serializers.ModelSerializer):
     class Meta:
         model = PartnerChurch
         fields = '__all__'
+
+
+class GideonFriendSerializer(serializers.ModelSerializer):
+    contacted_by_id = serializers.PrimaryKeyRelatedField(
+        source='contacted_by',
+        queryset=Member.objects.all(),
+        required=False,
+        allow_null=True,
+        write_only=False,
+    )
+    contacted_by_name = serializers.CharField(source='contacted_by.full_name', read_only=True)
+    contacted_by_classification = serializers.CharField(source='contacted_by.classification', read_only=True)
+
+    class Meta:
+        model = GideonFriend
+        fields = [
+            'id',
+            'full_name',
+            'phone',
+            'email',
+            'address',
+            'neighborhood',
+            'city',
+            'contacted_by_id',
+            'contacted_by_name',
+            'contacted_by_classification',
+            'donation_amount',
+            'became_friend_date',
+            'observations',
+            'status',
+            'created_date',
+            'updated_date',
+            'created_by',
+        ]
+
+    def validate_contacted_by(self, value):
+        if value and value.classification not in [Member.Classification.GIDEAO, Member.Classification.AUXILIAR]:
+            raise serializers.ValidationError('O responsável pelo contato precisa ser Gideão ou Auxiliar.')
+
+        return value
 
 
 class ChurchScheduleSerializer(serializers.ModelSerializer):

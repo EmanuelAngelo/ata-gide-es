@@ -8,7 +8,7 @@
             <h1 class="mt-3 text-3xl font-bold text-white">Panorama real do sistema ATA</h1>
             <p class="mt-4 max-w-4xl text-sm leading-7 text-slate-300">
               O painel agora consolida dados reais do backend Django para acompanhar membros,
-              reuniões, atas, presenças, agendamentos às igrejas e igrejas parceiras.
+              reuniões, atas, presenças, igrejas parceiras, amigos do Gideão e agendamentos às igrejas.
             </p>
           </div>
 
@@ -201,6 +201,12 @@
       icon: 'mdi mdi-church-outline',
     },
     {
+      title: 'Amigos do Gideão',
+      value: moduleCounts.value['gideon-friends'] ?? 0,
+      description: 'Amigos cadastrados com vínculo ao Gideão/Auxiliar responsável.',
+      icon: 'mdi mdi-hand-heart-outline',
+    },
+    {
       title: 'Agendamentos às igrejas',
       value: moduleCounts.value['church-schedules'] ?? 0,
       description: 'Compromissos e programações disponíveis.',
@@ -225,12 +231,21 @@
     errorMessage.value = ''
 
     try {
-      const [members, meetings, minutes, attendances, partnerChurches, churchSchedules] = await Promise.all([
+      const [
+        members,
+        meetings,
+        minutes,
+        attendances,
+        partnerChurches,
+        gideonFriends,
+        churchSchedules,
+      ] = await Promise.all([
         getResourceCollection(resourceConfigs.members.endpoint, token),
         getResourceCollection(resourceConfigs.meetings.endpoint, token),
         getResourceCollection(resourceConfigs.minutes.endpoint, token),
         getResourceCollection(resourceConfigs.attendances.endpoint, token),
         getResourceCollection(resourceConfigs['partner-churches'].endpoint, token),
+        getResourceCollection(resourceConfigs['gideon-friends'].endpoint, token),
         getResourceCollection(resourceConfigs['church-schedules'].endpoint, token),
       ])
 
@@ -240,6 +255,7 @@
         minutes: minutes.count,
         attendances: attendances.count,
         'partner-churches': partnerChurches.count,
+        'gideon-friends': gideonFriends.count,
         'church-schedules': churchSchedules.count,
       }
 

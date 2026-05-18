@@ -60,6 +60,7 @@ const meetingStatusOptions = ['Agendada', 'Realizada', 'Cancelada'].map((value) 
 const minutesStatusOptions = ['Rascunho', 'Revisão', 'Aprovada', 'Arquivada'].map((value) => ({ label: value, value }))
 const attendanceStatusOptions = ['Presente', 'Ausente', 'Justificada'].map((value) => ({ label: value, value }))
 const partnershipStatusOptions = ['Ativa', 'Inativa', 'Pendente'].map((value) => ({ label: value, value }))
+const gideonFriendStatusOptions = ['Ativo', 'Inativo', 'Pendente'].map((value) => ({ label: value, value }))
 const scheduleCommitmentOptions = ['Reunião', 'Visita', 'Apresentação', 'Culto Parceiro', 'Ação Evangelística'].map((value) => ({ label: value, value }))
 const scheduleStatusOptions = ['Agendado', 'Confirmado', 'Realizado', 'Cancelado'].map((value) => ({ label: value, value }))
 
@@ -191,6 +192,34 @@ export const resourceConfigs: Record<Exclude<AppRouteName, 'dashboard'>, Resourc
       { name: 'city', label: 'Cidade', type: 'text', required: true },
       { name: 'observations', label: 'Observações', type: 'textarea' },
       { name: 'partnership_status', label: 'Status da parceria', type: 'select', required: true, options: partnershipStatusOptions },
+    ],
+  },
+    'gideon-friends': {
+    routeName: 'gideon-friends',
+    endpoint: '/api/gideon-friends/',
+    title: 'Amigo do Gideão',
+    singularTitle: 'amigo do Gideão',
+    description: 'Cadastre os amigos do Gideão, valores de doação e o Gideão/Auxiliar responsável pelo contato.',
+    emptyMessage: 'Nenhum amigo do Gideão cadastrado ainda.',
+    columns: [
+      { key: 'full_name', label: 'Nome' },
+      { key: 'contacted_by_name', label: 'Responsável' },
+      { key: 'donation_amount', label: 'Doação' },
+      { key: 'became_friend_date', label: 'Data de vínculo' },
+      { key: 'status', label: 'Status' },
+    ],
+    fields: [
+      { name: 'full_name', label: 'Nome do amigo', type: 'text', required: true },
+      { name: 'phone', label: 'Telefone', type: 'text' },
+      { name: 'email', label: 'E-mail', type: 'email' },
+      { name: 'address', label: 'Endereço', type: 'text' },
+      { name: 'neighborhood', label: 'Bairro', type: 'text' },
+      { name: 'city', label: 'Cidade', type: 'text' },
+      { name: 'contacted_by_id', label: 'Gideão/Auxiliar responsável pelo contato', type: 'select' },
+      { name: 'donation_amount', label: 'Valor da doação', type: 'number', required: true, placeholder: 'Ex: 50.00' },
+      { name: 'became_friend_date', label: 'Data que se tornou Amigo do Gideão', type: 'date', required: true },
+      { name: 'observations', label: 'Observações', type: 'textarea' },
+      { name: 'status', label: 'Status', type: 'select', required: true, options: gideonFriendStatusOptions },
     ],
   },
   'church-schedules': {

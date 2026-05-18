@@ -14,6 +14,7 @@ import MeetingsPage from '@/pages/MeetingsPage.vue'
 import MembersPage from '@/pages/MembersPage.vue'
 import MinutesPage from '@/pages/MinutesPage.vue'
 import PartnerChurchesPage from '@/pages/PartnerChurchesPage.vue'
+import GideonFriendsPage from '@/pages/GideonFriendsPage.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -69,6 +70,12 @@ const router = createRouter({
       path: '/igrejas-parceiras',
       name: 'partner-churches',
       component: PartnerChurchesPage,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/amigos-do-gideao',
+      name: 'gideon-friends',
+      component: GideonFriendsPage,
       meta: { requiresAuth: true },
     },
   ],

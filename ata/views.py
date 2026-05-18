@@ -1,3 +1,4 @@
+from datetime import timezone
 from io import BytesIO
 
 from django.db.models import Count, Q
@@ -16,8 +17,9 @@ from .filters import (
 	MemberFilter,
 	MinutesFilter,
 	PartnerChurchFilter,
+	GideonFriendFilter,
 )
-from .models import Attendance, ChurchSchedule, Meeting, Member, Minutes, PartnerChurch
+from .models import Attendance, ChurchSchedule, Meeting, Member, Minutes, PartnerChurch, GideonFriend
 from .serializers import (
 	AttendanceSerializer,
 	BulkAttendanceItemSerializer,
@@ -26,6 +28,7 @@ from .serializers import (
 	MemberSerializer,
 	MinutesSerializer,
 	PartnerChurchSerializer,
+	GideonFriendSerializer,
 )
 
 
@@ -187,6 +190,22 @@ class PartnerChurchViewSet(BaseViewSet):
 	ordering = ['name', '-created_date']
 
 
+class GideonFriendViewSet(BaseViewSet):
+	queryset = GideonFriend.objects.select_related('contacted_by').all()
+	serializer_class = GideonFriendSerializer
+	filterset_class = GideonFriendFilter
+	search_fields = [
+		'full_name',
+		'phone',
+		'email',
+		'city',
+		'contacted_by__full_name',
+		'observations',
+		'created_by',
+	]
+	ordering = ['full_name', '-created_date']
+
+
 class ChurchScheduleViewSet(BaseViewSet):
 	queryset = ChurchSchedule.objects.select_related('church').all()
 	serializer_class = ChurchScheduleSerializer
@@ -214,21 +233,20 @@ class ChurchScheduleViewSet(BaseViewSet):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def dashboard_summary(request):
-	meetings_qs = Meeting.objects.all()
-	minutes_qs = Minutes.objects.select_related('meeting')
-	schedules_qs = ChurchSchedule.objects.all()
+    today = timezone.localdate()
 
-	return Response({
-		'counts': {
-			'members': Member.objects.count(),
-			'meetings': meetings_qs.count(),
-			'minutes': minutes_qs.count(),
-			'attendances': Attendance.objects.count(),
-			'partner-churches': PartnerChurch.objects.count(),
-			'church-schedules': schedules_qs.count(),
-			'pending-minutes': minutes_qs.exclude(status=Minutes.Status.APROVADA).count(),
-		},
-		'recent_meetings': MeetingSerializer(meetings_qs.order_by('-date', '-created_date')[:5], many=True).data,
-		'recent_minutes': MinutesSerializer(minutes_qs.order_by('-created_date')[:5], many=True).data,
-		'recent_schedules': ChurchScheduleSerializer(schedules_qs.order_by('-date', '-created_date')[:5], many=True).data,
-	})
+    schedules_qs = ChurchSchedule.objects.filter(scheduled_date__gte=today)
+
+    return Response({
+        'members': Member.objects.count(),
+        'meetings': Meeting.objects.count(),
+        'minutes': Minutes.objects.count(),
+        'attendances': Attendance.objects.count(),
+        'partner_churches': PartnerChurch.objects.count(),
+        'gideon_friends': GideonFriend.objects.count(),
+        'church_schedules': schedules_qs.count(),
+        'upcoming_schedules': ChurchScheduleSerializer(
+            schedules_qs.order_by('scheduled_date')[:5],
+            many=True,
+        ).data,
+    })
