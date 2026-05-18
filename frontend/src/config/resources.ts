@@ -216,7 +216,7 @@ export const resourceConfigs: Record<Exclude<AppRouteName, 'dashboard'>, Resourc
       { name: 'neighborhood', label: 'Bairro', type: 'text' },
       { name: 'city', label: 'Cidade', type: 'text' },
       { name: 'contacted_by_id', label: 'Gideão/Auxiliar responsável pelo contato', type: 'select' },
-      { name: 'donation_amount', label: 'Valor da doação', type: 'number', required: true, placeholder: 'Ex: 50.00' },
+      { name: 'donation_amount', label: 'Valor da doação', type: 'text', required: true, placeholder: 'Ex: 50.00' },
       { name: 'became_friend_date', label: 'Data que se tornou Amigo do Gideão', type: 'date', required: true },
       { name: 'observations', label: 'Observações', type: 'textarea' },
       { name: 'status', label: 'Status', type: 'select', required: true, options: gideonFriendStatusOptions },
