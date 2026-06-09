@@ -1,29 +1,33 @@
 <template>
-  <div class="space-y-4 sm:space-y-6">
+  <div class="w-full min-w-0 max-w-full space-y-4 overflow-x-clip sm:space-y-6">
     <div v-if="loading" class="rounded-2xl border border-white/10 bg-white/5 px-4 py-12 text-center text-sm text-slate-300">
       Carregando reunião...
     </div>
 
     <template v-else-if="meeting">
-      <section class="rounded-2xl border border-white/10 bg-white/5 p-4 sm:rounded-3xl sm:p-6">
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div class="min-w-0">
-            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-indigo-300">Reunião</p>
-            <h2 class="mt-2 text-2xl font-bold text-white sm:text-3xl">{{ meeting.title }}</h2>
-            <p class="mt-2 text-sm text-slate-400">
-              {{ meeting.meeting_type }} • {{ meeting.date }} • {{ meeting.location }}
+      <section class="min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-3 sm:rounded-3xl sm:p-6">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+          <div class="min-w-0 flex-1">
+            <p class="text-[10px] font-semibold uppercase tracking-[0.15em] text-indigo-300 sm:text-xs sm:tracking-[0.25em]">Reunião</p>
+            <h2 class="mt-1 break-words text-xl font-bold text-white sm:mt-2 sm:text-3xl">{{ meeting.title }}</h2>
+            <p class="mt-2 break-words text-xs leading-5 text-slate-400 sm:text-sm sm:leading-6">
+              <span class="block sm:inline">{{ meeting.meeting_type }}</span>
+              <span class="hidden sm:inline"> • </span>
+              <span class="block sm:inline">{{ meeting.date }}</span>
+              <span class="hidden sm:inline"> • </span>
+              <span class="block sm:inline">{{ meeting.location }}</span>
             </p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <span class="rounded-full border border-white/10 bg-slate-950/60 px-3 py-1 text-slate-200">
-                Status: {{ meeting.status }}
+            <div class="mt-3 flex flex-wrap gap-1.5 sm:gap-2">
+              <span class="max-w-full truncate rounded-full border border-white/10 bg-slate-950/60 px-2.5 py-1 text-[11px] text-slate-200 sm:px-3 sm:text-xs">
+                {{ meeting.status }}
               </span>
-              <span v-if="minutes" class="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1 text-indigo-200">
+              <span v-if="minutes" class="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-2.5 py-1 text-[11px] text-indigo-200 sm:px-3 sm:text-xs">
                 Ata criada
               </span>
-              <span v-else class="rounded-full border border-amber-400/20 bg-amber-500/10 px-3 py-1 text-amber-200">
+              <span v-else class="rounded-full border border-amber-400/20 bg-amber-500/10 px-2.5 py-1 text-[11px] text-amber-200 sm:px-3 sm:text-xs">
                 Sem ata
               </span>
-              <span class="rounded-full border border-emerald-400/20 bg-emerald-500/10 px-3 py-1 text-emerald-200">
+              <span class="rounded-full border border-emerald-400/20 bg-emerald-500/10 px-2.5 py-1 text-[11px] text-emerald-200 sm:px-3 sm:text-xs">
                 {{ presentCount }} presente(s)
               </span>
             </div>
@@ -31,48 +35,56 @@
 
           <button
             type="button"
-            class="shrink-0 rounded-2xl border border-white/10 px-4 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/5 lg:hidden"
+            class="w-full shrink-0 rounded-2xl border border-white/10 px-4 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/5 sm:w-auto lg:hidden"
             @click="emit('back')"
           >
             Voltar à lista
           </button>
         </div>
 
-        <div v-if="errorMessage" class="mt-4 rounded-2xl border border-rose-400/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
+        <div v-if="errorMessage" class="mt-3 rounded-2xl border border-rose-400/20 bg-rose-500/10 px-3 py-3 text-sm text-rose-200 sm:mt-4 sm:px-4">
           {{ errorMessage }}
         </div>
-        <div v-if="successMessage" class="mt-4 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+        <div v-if="successMessage" class="mt-3 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-3 py-3 text-sm text-emerald-200 sm:mt-4 sm:px-4">
           {{ successMessage }}
         </div>
       </section>
 
-      <div class="mobile-scroll-tabs -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
-        <button
-          v-for="tab in tabs"
-          :key="tab.key"
-          type="button"
-          :class="[
-            'shrink-0 rounded-2xl px-4 py-2.5 text-sm font-medium transition',
-            activeTab === tab.key
-              ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-950/30'
-              : 'border border-white/10 text-slate-300 hover:bg-white/5',
-          ]"
-          @click="activeTab = tab.key"
-        >
-          {{ tab.label }}
-        </button>
+      <div class="mobile-scroll-tabs w-full min-w-0 max-w-full overflow-x-auto">
+        <div class="flex w-max min-w-full gap-1.5 pb-1 sm:gap-2">
+          <button
+            v-for="tab in tabs"
+            :key="tab.key"
+            type="button"
+            :class="[
+              'shrink-0 rounded-2xl px-3 py-2 text-xs font-medium transition sm:px-4 sm:py-2.5 sm:text-sm',
+              activeTab === tab.key
+                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-950/30'
+                : 'border border-white/10 text-slate-300 hover:bg-white/5',
+            ]"
+            @click="activeTab = tab.key"
+          >
+            <span class="sm:hidden">{{ tab.shortLabel }}</span>
+            <span class="hidden sm:inline">{{ tab.label }}</span>
+          </button>
+        </div>
       </div>
 
-      <section class="rounded-2xl border border-white/10 bg-slate-900/70 p-4 sm:rounded-3xl sm:p-6">
-        <div v-show="activeTab === 'info'">
-          <form class="grid gap-4 md:grid-cols-2" @submit.prevent="saveMeeting">
-            <div v-for="field in meetingFields" :key="field.name" :class="field.type === 'textarea' ? 'md:col-span-2' : ''">
+      <section class="min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-slate-900/70 p-3 sm:rounded-3xl sm:p-6">
+        <div v-show="activeTab === 'info'" class="min-w-0">
+          <form class="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2" @submit.prevent="saveMeeting">
+            <div
+              v-for="field in meetingFields"
+              :key="field.name"
+              class="min-w-0"
+              :class="field.type === 'textarea' ? 'md:col-span-2' : ''"
+            >
               <label :for="field.name" class="mb-2 block text-sm font-medium text-slate-200">{{ field.label }}</label>
               <select
                 v-if="field.type === 'select'"
                 :id="field.name"
                 v-model="meetingForm[field.name]"
-                class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-indigo-500"
+                class="block w-full min-w-0 max-w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none focus:border-indigo-500 sm:text-sm"
               >
                 <option v-for="option in field.options" :key="option.value" :value="option.value">{{ option.label }}</option>
               </select>
@@ -81,21 +93,21 @@
                 :id="field.name"
                 v-model="meetingForm[field.name]"
                 rows="3"
-                class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-indigo-500"
+                class="block w-full min-w-0 max-w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none focus:border-indigo-500 sm:text-sm"
               />
               <input
                 v-else
                 :id="field.name"
                 v-model="meetingForm[field.name]"
                 :type="field.type"
-                class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-indigo-500"
+                class="block w-full min-w-0 max-w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none focus:border-indigo-500 sm:text-sm"
               />
             </div>
-            <div class="md:col-span-2 flex justify-end">
+            <div class="min-w-0 md:col-span-2">
               <button
                 type="submit"
                 :disabled="savingMeeting"
-                class="w-full rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:opacity-70 sm:w-auto"
+                class="w-full rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:opacity-70"
               >
                 {{ savingMeeting ? 'Salvando...' : 'Salvar reunião' }}
               </button>
@@ -153,9 +165,9 @@
   const meetingFields = resourceConfigs.meetings.fields
 
   const tabs = [
-    { key: 'info', label: 'Dados da reunião' },
-    { key: 'minutes', label: 'Ata' },
-    { key: 'attendance', label: 'Lista de presença' },
+    { key: 'info', label: 'Dados da reunião', shortLabel: 'Dados' },
+    { key: 'minutes', label: 'Ata', shortLabel: 'Ata' },
+    { key: 'attendance', label: 'Lista de presença', shortLabel: 'Presença' },
   ] as const
 
   type TabKey = (typeof tabs)[number]['key']

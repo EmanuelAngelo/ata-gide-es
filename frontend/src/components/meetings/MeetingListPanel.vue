@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-4">
+  <div class="w-full min-w-0 max-w-full space-y-4">
     <div class="flex flex-col gap-3">
       <input
         v-model="search"
@@ -31,7 +31,7 @@
         :key="String(item.id)"
         type="button"
         :class="[
-          'w-full rounded-2xl border px-4 py-4 text-left transition',
+          'w-full min-w-0 max-w-full rounded-2xl border px-3 py-3 text-left transition sm:px-4 sm:py-4',
           String(selectedId) === String(item.id)
             ? 'border-indigo-400/40 bg-indigo-500/10'
             : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]',

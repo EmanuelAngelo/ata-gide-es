@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-5">
+  <div class="w-full min-w-0 max-w-full space-y-4 overflow-x-clip sm:space-y-5">
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h3 class="text-lg font-semibold text-white">Ata da reunião</h3>
@@ -7,17 +7,17 @@
           {{ hasMinutes ? 'Edite o conteúdo oficial desta reunião.' : 'Crie a ata diretamente nesta reunião.' }}
         </p>
       </div>
-      <div v-if="hasMinutes && minutesId" class="flex flex-wrap gap-2">
+      <div v-if="hasMinutes && minutesId" class="flex w-full flex-wrap gap-2 sm:w-auto">
         <button
           type="button"
-          class="rounded-xl border border-emerald-400/20 px-3 py-2 text-sm font-medium text-emerald-200 transition hover:bg-emerald-500/10"
+          class="flex-1 rounded-xl border border-emerald-400/20 px-3 py-2 text-sm font-medium text-emerald-200 transition hover:bg-emerald-500/10 sm:flex-none"
           @click="emit('pdf')"
         >
           PDF
         </button>
         <button
           type="button"
-          class="rounded-xl border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/5"
+          class="flex-1 rounded-xl border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/5 sm:flex-none"
           @click="emit('print')"
         >
           Impressão
@@ -25,61 +25,61 @@
       </div>
     </div>
 
-    <form class="grid gap-4 md:grid-cols-2" @submit.prevent="submitForm">
-      <div>
+    <form class="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2" @submit.prevent="submitForm">
+      <div class="min-w-0">
         <label class="mb-2 block text-sm font-medium text-slate-200">Hora de abertura</label>
         <input
           v-model="form.opening_time"
           type="text"
           placeholder="Ex: 19:30"
-          class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+          class="block w-full min-w-0 max-w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none transition focus:border-indigo-500 sm:text-sm"
         />
       </div>
-      <div>
+      <div class="min-w-0">
         <label class="mb-2 block text-sm font-medium text-slate-200">Hora de encerramento</label>
         <input
           v-model="form.closing_time"
           type="text"
           placeholder="Ex: 21:00"
-          class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+          class="block w-full min-w-0 max-w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none transition focus:border-indigo-500 sm:text-sm"
         />
       </div>
-      <div class="md:col-span-2">
+      <div class="min-w-0 md:col-span-2">
         <label class="mb-2 block text-sm font-medium text-slate-200">Texto completo da ata *</label>
         <textarea
           v-model="form.full_text"
           rows="8"
           placeholder="Registre aqui o conteúdo da reunião..."
-          class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+          class="block w-full min-w-0 max-w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none transition focus:border-indigo-500 sm:text-sm"
         />
       </div>
-      <div>
+      <div class="min-w-0">
         <label class="mb-2 block text-sm font-medium text-slate-200">Data de aprovação</label>
         <input
           v-model="form.approval_date"
           type="date"
-          class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+          class="block w-full min-w-0 max-w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none transition focus:border-indigo-500 sm:text-sm"
         />
       </div>
-      <div>
+      <div class="min-w-0">
         <label class="mb-2 block text-sm font-medium text-slate-200">Status</label>
         <select
           v-model="form.status"
-          class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+          class="block w-full min-w-0 max-w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none transition focus:border-indigo-500 sm:text-sm"
         >
           <option v-for="option in statusOptions" :key="option" :value="option">{{ option }}</option>
         </select>
       </div>
-      <div class="md:col-span-2">
+      <div class="min-w-0 md:col-span-2">
         <label class="mb-2 block text-sm font-medium text-slate-200">Assinantes</label>
         <textarea
           v-model="form.signers"
           rows="3"
           placeholder="Nomes dos assinantes..."
-          class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+          class="block w-full min-w-0 max-w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none transition focus:border-indigo-500 sm:text-sm"
         />
       </div>
-      <div class="md:col-span-2 flex justify-end">
+      <div class="min-w-0 md:col-span-2 flex justify-end">
         <button
           type="submit"
           :disabled="saving"

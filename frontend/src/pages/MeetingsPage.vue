@@ -1,17 +1,20 @@
 <template>
   <DashboardShell :items="navigationItems" :username="authStore.username" @logout="handleLogout">
-    <div class="space-y-4 sm:space-y-6">
-      <section class="rounded-2xl border border-white/10 bg-white/5 p-4 sm:rounded-3xl sm:p-6">
-        <h1 class="text-2xl font-bold text-white sm:text-3xl">Reuniões</h1>
+    <div class="w-full min-w-0 max-w-full space-y-4 overflow-x-clip sm:space-y-6">
+      <section
+        v-if="!selectedMeetingId"
+        class="rounded-2xl border border-white/10 bg-white/5 p-4 sm:rounded-3xl sm:p-6"
+      >
+        <h1 class="text-xl font-bold text-white sm:text-3xl">Reuniões</h1>
         <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-300 sm:leading-7">
           Crie a reunião e, no mesmo lugar, registre a ata e a lista de presença dos membros — sem precisar trocar de tela.
         </p>
       </section>
 
-      <div class="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:gap-6">
+      <div class="grid w-full min-w-0 max-w-full grid-cols-1 gap-4 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:gap-6">
         <aside
           :class="[
-            'rounded-2xl border border-white/10 bg-slate-900/70 p-4 sm:rounded-3xl sm:p-5',
+            'min-w-0 w-full max-w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-900/70 p-3 sm:rounded-3xl sm:p-5',
             selectedMeetingId && 'hidden lg:block',
           ]"
         >
@@ -23,7 +26,7 @@
           />
         </aside>
 
-        <main class="min-w-0">
+        <main class="min-w-0 w-full max-w-full overflow-x-clip">
           <MeetingWorkspace
             v-if="selectedMeetingId"
             :meeting-id="selectedMeetingId"
