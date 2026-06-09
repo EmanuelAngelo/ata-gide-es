@@ -1,15 +1,15 @@
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100">
-    <div class="flex min-h-screen">
+  <div class="min-h-screen overflow-x-clip bg-slate-950 text-slate-100">
+    <div class="flex min-h-screen min-w-0">
       <aside
         :class="[
-          'fixed inset-y-0 left-0 z-30 flex w-[min(100vw-3rem,18rem)] flex-col border-r border-white/10 bg-slate-900/95 px-3 py-5 backdrop-blur transition-transform duration-300 sm:w-72 sm:px-4 sm:py-6 lg:static lg:translate-x-0',
+          'fixed inset-y-0 left-0 z-30 flex w-72 max-w-[calc(100%-1rem)] flex-col border-r border-white/10 bg-slate-900/95 px-3 py-5 backdrop-blur transition-transform duration-300 sm:max-w-xs sm:px-4 sm:py-6 lg:static lg:max-w-none lg:translate-x-0',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full',
         ]"
       >
         <div class="flex items-center justify-between gap-2 px-1 sm:px-2">
           <div class="min-w-0">
-            <p class="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-300">ATA</p>
+            <p class="text-[10px] font-semibold uppercase tracking-[0.15em] text-indigo-300 sm:text-xs sm:tracking-[0.3em]">ATA</p>
             <h1 class="mt-1 truncate text-lg font-semibold text-white sm:mt-2 sm:text-xl">Painel administrativo</h1>
           </div>
           <button class="rounded-xl p-2 text-slate-400 hover:bg-white/5 lg:hidden" @click="sidebarOpen = false">
@@ -34,8 +34,8 @@
             ]"
             @click="navigateTo(item.key)"
           >
-            <span :class="item.icon" class="text-xl" />
-            <span>{{ item.label }}</span>
+            <span :class="item.icon" class="shrink-0 text-xl" />
+            <span class="min-w-0 truncate">{{ item.label }}</span>
           </button>
         </nav>
 
@@ -57,7 +57,7 @@
                 <span class="mdi mdi-menu text-xl" />
               </button>
               <div class="min-w-0">
-                <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500 sm:text-xs sm:tracking-[0.25em]">Módulo ativo</p>
+                <p class="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500 sm:text-xs sm:tracking-[0.25em]">Módulo ativo</p>
                 <h2 class="mt-0.5 truncate text-base font-semibold text-white sm:mt-1 sm:text-lg">{{ currentLabel }}</h2>
               </div>
             </div>
@@ -82,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watch } from 'vue'
+  import { computed, onUnmounted, ref, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import type { NavigationItem } from '@/config/navigation'
 
@@ -116,4 +116,12 @@
       sidebarOpen.value = false
     },
   )
+
+  watch(sidebarOpen, (open) => {
+    document.body.style.overflow = open ? 'hidden' : ''
+  })
+
+  onUnmounted(() => {
+    document.body.style.overflow = ''
+  })
 </script>

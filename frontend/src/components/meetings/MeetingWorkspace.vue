@@ -46,7 +46,7 @@
         </div>
       </section>
 
-      <div class="flex gap-2 overflow-x-auto pb-1">
+      <div class="mobile-scroll-tabs -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
         <button
           v-for="tab in tabs"
           :key="tab.key"

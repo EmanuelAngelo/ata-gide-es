@@ -8,7 +8,7 @@
         </p>
       </section>
 
-      <div class="grid gap-4 lg:grid-cols-[minmax(280px,360px)_minmax(0,1fr)] lg:gap-6">
+      <div class="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:gap-6">
         <aside
           :class="[
             'rounded-2xl border border-white/10 bg-slate-900/70 p-4 sm:rounded-3xl sm:p-5',

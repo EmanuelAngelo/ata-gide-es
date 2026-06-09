@@ -1,6 +1,6 @@
 <template>
   <DashboardShell :items="navigationItems" :username="authStore.username" @logout="handleLogout">
-    <div class="space-y-6">
+    <div class="space-y-4 sm:space-y-6">
       <section class="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-slate-950/20 backdrop-blur sm:rounded-3xl sm:p-6">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div class="min-w-0">
@@ -42,7 +42,7 @@
             <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <h2 class="text-lg font-semibold text-white">Últimas reuniões</h2>
-                <p class="mt-1 text-sm text-slate-400">Dados reais vindos de `/api/meetings/`.</p>
+                <p class="mt-1 text-sm text-slate-400 break-words">Dados reais vindos de `/api/meetings/`.</p>
               </div>
               <router-link :to="{ name: 'meetings' }" class="text-sm font-medium text-indigo-300 transition hover:text-indigo-200">
                 Ver módulo

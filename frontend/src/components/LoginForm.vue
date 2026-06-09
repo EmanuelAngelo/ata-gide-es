@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-md rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xl shadow-slate-950/10 backdrop-blur sm:rounded-3xl sm:p-8 md:p-10">
+  <div class="w-full min-w-0 max-w-md rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xl shadow-slate-950/10 backdrop-blur sm:rounded-3xl sm:p-8 md:p-10">
     <div class="mb-6 text-center sm:mb-8 sm:text-left">
       <img
         src="https://gideoes.org.br/wp-content/uploads/2024/12/logo-branco-2048x665.png"
@@ -30,7 +30,7 @@
           name="username"
           autocomplete="username"
           placeholder="Digite seu usuário"
-          class="block w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+          class="block w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 sm:text-sm"
         />
       </div>
 
@@ -55,7 +55,7 @@
             name="password"
             autocomplete="current-password"
             placeholder="Digite sua senha"
-            class="block w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 pr-12 text-sm text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+            class="block w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 pr-12 text-base text-slate-900 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 sm:text-sm"
           />
           <button
             type="button"

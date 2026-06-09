@@ -148,9 +148,9 @@
       </div>
     </section>
 
-    <div v-if="isModalOpen" class="fixed inset-0 z-40 flex items-end justify-center bg-slate-950/75 p-0 sm:items-center sm:p-4 sm:py-6">
+    <div v-if="isModalOpen" class="mobile-overlay fixed inset-0 z-40 flex items-end justify-center bg-slate-950/75 p-0 sm:items-center sm:p-4 sm:py-6">
       <div
-        class="max-h-[95vh] w-full overflow-y-auto rounded-t-3xl border border-white/10 bg-slate-900 p-4 shadow-2xl shadow-slate-950/40 sm:max-h-[92vh] sm:max-w-4xl sm:rounded-3xl sm:p-6">
+        class="mobile-sheet max-h-[95dvh] w-full max-w-full overflow-y-auto overscroll-contain rounded-t-3xl border border-white/10 bg-slate-900 p-4 shadow-2xl shadow-slate-950/40 sm:max-h-[92dvh] sm:max-w-4xl sm:rounded-3xl sm:p-6">
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
             <p class="text-xs font-semibold uppercase tracking-[0.25em] text-indigo-300 sm:text-sm">Formulário</p>

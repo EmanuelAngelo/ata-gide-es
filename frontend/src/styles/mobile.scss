@@ -1,0 +1,65 @@
+/* Correções globais de layout mobile */
+
+html {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: clip;
+  max-width: 100%;
+  margin: 0;
+}
+
+#app {
+  overflow-x: clip;
+  max-width: 100%;
+  min-height: 100dvh;
+}
+
+/* Evita zoom automático do iOS Safari ao focar inputs (< 16px) */
+@media (max-width: 639px) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Vuetify: remove padding extra que estoura largura no mobile */
+.app-shell {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+.app-main {
+  overflow-x: clip;
+  max-width: 100%;
+  padding: 0 !important;
+  --v-layout-left: 0px;
+  --v-layout-right: 0px;
+  --v-layout-top: 0px;
+  --v-layout-bottom: 0px;
+}
+
+/* Modais bottom-sheet com safe area (notch / barra inferior) */
+.mobile-sheet {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+}
+
+.mobile-overlay {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Tabs horizontais sem empurrar a página */
+.mobile-scroll-tabs {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.mobile-scroll-tabs::-webkit-scrollbar {
+  display: none;
+}

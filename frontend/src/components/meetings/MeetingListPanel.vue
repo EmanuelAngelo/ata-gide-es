@@ -64,8 +64,8 @@
       </button>
     </div>
 
-    <div v-if="isModalOpen" class="fixed inset-0 z-40 flex items-end justify-center bg-slate-950/75 sm:items-center sm:p-4">
-      <div class="max-h-[95vh] w-full overflow-y-auto rounded-t-3xl border border-white/10 bg-slate-900 p-4 sm:max-w-lg sm:rounded-3xl sm:p-6">
+    <div v-if="isModalOpen" class="mobile-overlay fixed inset-0 z-40 flex items-end justify-center bg-slate-950/75 sm:items-center sm:p-4">
+      <div class="mobile-sheet max-h-[95dvh] w-full max-w-full overflow-y-auto overscroll-contain rounded-t-3xl border border-white/10 bg-slate-900 p-4 sm:max-w-lg sm:rounded-3xl sm:p-6">
         <div class="flex items-start justify-between gap-3">
           <div>
             <h3 class="text-xl font-bold text-white">Nova reunião</h3>

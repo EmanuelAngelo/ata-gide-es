@@ -1,6 +1,6 @@
 <template>
-  <v-app class="overflow-x-hidden">
-    <v-main class="overflow-x-hidden">
+  <v-app class="app-shell">
+    <v-main class="app-main">
       <router-view />
     </v-main>
   </v-app>

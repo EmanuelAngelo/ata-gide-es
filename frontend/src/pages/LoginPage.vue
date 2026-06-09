@@ -1,7 +1,7 @@
 <template>
-  <section class="min-h-screen bg-slate-950 text-slate-50">
-    <div class="mx-auto flex min-h-screen max-w-7xl flex-col lg:flex-row">
-      <div class="flex flex-1 items-center justify-center px-4 py-8 sm:px-10 sm:py-12 lg:px-16">
+  <section class="min-h-screen overflow-x-clip bg-slate-950 text-slate-50">
+    <div class="mx-auto flex min-h-screen w-full min-w-0 max-w-7xl flex-col lg:flex-row">
+      <div class="flex w-full min-w-0 flex-1 items-center justify-center px-4 py-8 sm:px-10 sm:py-12 lg:px-16">
         <LoginForm
           :loading="isSubmitting"
           :error-message="errorMessage"
