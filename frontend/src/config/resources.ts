@@ -96,7 +96,7 @@ export const resourceConfigs: Record<Exclude<AppRouteName, 'dashboard'>, Resourc
     endpoint: '/api/meetings/',
     title: 'Reuniões',
     singularTitle: 'reunião',
-    description: 'Gerencie calendário, liderança e andamento das reuniões.',
+    description: 'Gerencie reuniões, atas e listas de presença em um único fluxo.',
     emptyMessage: 'Nenhuma reunião cadastrada ainda.',
     columns: [
       { key: 'title', label: 'Título' },
@@ -124,8 +124,8 @@ export const resourceConfigs: Record<Exclude<AppRouteName, 'dashboard'>, Resourc
     endpoint: '/api/minutes/',
     title: 'Atas',
     singularTitle: 'ata',
-    description: 'Produza e revise o conteúdo oficial das atas das reuniões.',
-    emptyMessage: 'Nenhuma ata cadastrada ainda.',
+    description: 'Consulte e edite as atas registradas nas reuniões.',
+    emptyMessage: 'Nenhuma ata registrada ainda. Crie atas a partir do módulo Reuniões.',
     columns: [
       { key: 'meeting_title', label: 'Reunião' },
       { key: 'opening_time', label: 'Abertura' },

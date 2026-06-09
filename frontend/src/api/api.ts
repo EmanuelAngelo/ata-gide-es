@@ -19,7 +19,10 @@ type ApiRequestOptions = Omit<RequestInit, 'body'> & {
   token?: string | null
 }
 
-const API_BASE_URL = 'https://emanuelcoutinho.pythonanywhere.com'
+import { API_BASE_URL } from '@/config/api'
+
+export { API_BASE_URL, API_MODE, resolveApiBaseUrl, resolveApiMode } from '@/config/api'
+export type { ApiMode } from '@/config/api'
 
 export function buildUrl(path: string) {
   if (/^https?:\/\//i.test(path)) {

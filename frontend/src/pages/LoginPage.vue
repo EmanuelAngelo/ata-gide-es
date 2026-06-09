@@ -1,7 +1,7 @@
 <template>
   <section class="min-h-screen bg-slate-950 text-slate-50">
     <div class="mx-auto flex min-h-screen max-w-7xl flex-col lg:flex-row">
-      <div class="flex flex-1 items-center justify-center px-6 py-12 sm:px-10 lg:px-16">
+      <div class="flex flex-1 items-center justify-center px-4 py-8 sm:px-10 sm:py-12 lg:px-16">
         <LoginForm
           :loading="isSubmitting"
           :error-message="errorMessage"
@@ -67,6 +67,16 @@
           </div>
         </div>
       </aside>
+    </div>
+
+    <div class="border-t border-white/10 px-4 py-8 lg:hidden">
+      <p class="text-xs font-semibold uppercase tracking-[0.25em] text-amber-300">Gideões Internacionais</p>
+      <p class="mt-3 text-lg font-semibold leading-snug text-white">
+        Servindo para que a Palavra de Deus chegue mais longe.
+      </p>
+      <p class="mt-3 text-sm leading-6 text-slate-400">
+        Organize reuniões, atas, presenças e agendamentos do ministério em um só lugar.
+      </p>
     </div>
   </section>
 </template>

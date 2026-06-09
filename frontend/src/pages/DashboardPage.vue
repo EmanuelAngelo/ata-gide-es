@@ -1,46 +1,45 @@
 <template>
   <DashboardShell :items="navigationItems" :username="authStore.username" @logout="handleLogout">
     <div class="space-y-6">
-      <section class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-slate-950/20 backdrop-blur">
-        <div class="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-          <div>
-            <p class="text-sm font-semibold uppercase tracking-[0.25em] text-indigo-300">Dashboard</p>
-            <h1 class="mt-3 text-3xl font-bold text-white">Panorama real do sistema ATA</h1>
-            <p class="mt-4 max-w-4xl text-sm leading-7 text-slate-300">
-              O painel agora consolida dados reais do backend Django para acompanhar membros,
-              reuniões, atas, presenças, igrejas parceiras, amigos do Gideão e agendamentos às igrejas.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            class="self-start rounded-2xl border border-white/10 px-4 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/5"
-            @click="loadDashboard"
-          >
-            Atualizar painel
-          </button>
+      <section class="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-slate-950/20 backdrop-blur sm:rounded-3xl sm:p-6">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div class="min-w-0">
+          <p class="text-xs font-semibold uppercase tracking-[0.25em] text-indigo-300 sm:text-sm">Dashboard</p>
+          <h1 class="mt-2 text-2xl font-bold text-white sm:mt-3 sm:text-3xl">Panorama do sistema ATA</h1>
+          <p class="mt-3 max-w-4xl text-sm leading-6 text-slate-300 sm:mt-4 sm:leading-7">
+            Acompanhe membros, reuniões, atas, presenças, igrejas parceiras, amigos do Gideão e agendamentos.
+          </p>
         </div>
+
+        <button
+          type="button"
+          class="w-full shrink-0 rounded-2xl border border-white/10 px-4 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/5 sm:w-auto"
+          @click="loadDashboard"
+        >
+          Atualizar painel
+        </button>
+      </div>
 
         <div v-if="errorMessage" class="mt-5 rounded-2xl border border-rose-400/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
           {{ errorMessage }}
         </div>
       </section>
 
-      <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <article v-for="card in summaryCards" :key="card.title" class="rounded-3xl border border-white/10 bg-slate-900/70 p-5">
-          <div class="flex items-center justify-between">
-            <p class="text-sm text-slate-400">{{ card.title }}</p>
-            <span :class="card.icon" class="text-2xl text-indigo-300" />
+      <section class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+        <article v-for="card in summaryCards" :key="card.title" class="rounded-2xl border border-white/10 bg-slate-900/70 p-3 sm:rounded-3xl sm:p-5">
+          <div class="flex items-start justify-between gap-2">
+            <p class="text-xs text-slate-400 sm:text-sm">{{ card.title }}</p>
+            <span :class="card.icon" class="shrink-0 text-xl text-indigo-300 sm:text-2xl" />
           </div>
-          <p class="mt-6 text-3xl font-semibold text-white">{{ loading ? '...' : card.value }}</p>
-          <p class="mt-2 text-sm text-slate-400">{{ card.description }}</p>
+          <p class="mt-3 text-2xl font-semibold text-white sm:mt-6 sm:text-3xl">{{ loading ? '...' : card.value }}</p>
+          <p class="mt-1 hidden text-sm text-slate-400 sm:mt-2 sm:block">{{ card.description }}</p>
         </article>
       </section>
 
-      <section class="grid gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(360px,1fr)]">
+      <section class="grid gap-4 sm:gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
         <div class="space-y-6">
-          <div class="rounded-3xl border border-white/10 bg-slate-900/70 p-6">
-            <div class="flex items-center justify-between gap-4">
+          <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-4 sm:rounded-3xl sm:p-6">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <h2 class="text-lg font-semibold text-white">Últimas reuniões</h2>
                 <p class="mt-1 text-sm text-slate-400">Dados reais vindos de `/api/meetings/`.</p>
@@ -52,12 +51,12 @@
 
             <div v-if="recentMeetings.length" class="mt-5 grid gap-3">
               <div v-for="meeting in recentMeetings" :key="String(meeting.id ?? meeting.title)" class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div class="flex items-start justify-between gap-3">
-                  <div>
-                    <p class="font-medium text-white">{{ formatValue(meeting.title) }}</p>
+                <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                  <div class="min-w-0">
+                    <p class="font-medium text-white break-words">{{ formatValue(meeting.title) }}</p>
                     <p class="mt-1 text-sm text-slate-400">{{ formatValue(meeting.meeting_type) }} • {{ formatValue(meeting.date) }}</p>
                   </div>
-                  <span class="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-200">
+                  <span class="self-start rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-200">
                     {{ formatValue(meeting.status) }}
                   </span>
                 </div>
@@ -70,8 +69,8 @@
             </p>
           </div>
 
-          <div class="rounded-3xl border border-white/10 bg-slate-900/70 p-6">
-            <div class="flex items-center justify-between gap-4">
+          <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-4 sm:rounded-3xl sm:p-6">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <h2 class="text-lg font-semibold text-white">Atas recentes</h2>
                 <p class="mt-1 text-sm text-slate-400">Resumo real das atas cadastradas.</p>
@@ -95,29 +94,29 @@
           </div>
         </div>
 
-        <aside class="space-y-6">
-          <div class="rounded-3xl border border-white/10 bg-slate-900/70 p-6">
+        <aside class="space-y-4 sm:space-y-6">
+          <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-4 sm:rounded-3xl sm:p-6">
             <h2 class="text-lg font-semibold text-white">Acessos rápidos</h2>
-            <p class="mt-3 text-sm leading-7 text-slate-300">
+            <p class="mt-2 hidden text-sm leading-7 text-slate-300 sm:mt-3 sm:block">
               Cada módulo mostra a quantidade real de registros já salvos no backend.
             </p>
 
-            <div class="mt-6 grid gap-3">
+            <div class="mt-4 grid gap-2 sm:mt-6 sm:gap-3">
               <router-link
                 v-for="item in quickAccessItems"
                 :key="item.key"
                 :to="{ name: item.key }"
-                class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200 transition hover:bg-white/10 hover:text-white"
+                class="flex items-center justify-between gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-3 text-sm text-slate-200 transition hover:bg-white/10 hover:text-white sm:gap-3 sm:px-4"
               >
-                <div class="flex items-center gap-3">
-                  <span :class="item.icon" class="text-xl text-indigo-300" />
-                  <div>
-                    <p class="font-medium text-white">{{ item.label }}</p>
-                    <p class="text-xs text-slate-400">{{ item.description }}</p>
+                <div class="flex min-w-0 items-center gap-2 sm:gap-3">
+                  <span :class="item.icon" class="shrink-0 text-lg text-indigo-300 sm:text-xl" />
+                  <div class="min-w-0">
+                    <p class="truncate font-medium text-white">{{ item.label }}</p>
+                    <p class="hidden truncate text-xs text-slate-400 sm:block">{{ item.description }}</p>
                   </div>
                 </div>
-                <div class="flex items-center gap-3">
-                  <span class="rounded-full border border-white/10 bg-slate-950/60 px-3 py-1 text-xs font-semibold text-white">
+                <div class="flex shrink-0 items-center gap-2 sm:gap-3">
+                  <span class="rounded-full border border-white/10 bg-slate-950/60 px-2.5 py-1 text-xs font-semibold text-white sm:px-3">
                     {{ loading ? '...' : moduleCounts[item.key] ?? 0 }}
                   </span>
                   <span class="mdi mdi-chevron-right text-lg text-slate-500" />
@@ -126,7 +125,7 @@
             </div>
           </div>
 
-          <div class="rounded-3xl border border-white/10 bg-slate-900/70 p-6">
+          <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-4 sm:rounded-3xl sm:p-6">
             <h2 class="text-lg font-semibold text-white">Agendamento às igrejas</h2>
             <p class="mt-2 text-sm text-slate-400">Prévia real dos compromissos cadastrados nesse módulo.</p>
 

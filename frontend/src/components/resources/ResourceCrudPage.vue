@@ -1,36 +1,39 @@
 <template>
-  <div class="space-y-6">
-    <section class="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-slate-950/20 backdrop-blur">
-      <div class="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-        <div>
-          <h1 class="mt-3 text-3xl font-bold text-white">{{ config.title }}</h1>
-          <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-300">{{ config.description }}</p>
-          <p class="mt-2 text-sm text-slate-400">
+  <div class="space-y-4 sm:space-y-6">
+    <section class="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-slate-950/20 backdrop-blur sm:rounded-3xl sm:p-6">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div class="min-w-0">
+          <h1 class="mt-1 text-2xl font-bold text-white sm:mt-3 sm:text-3xl">{{ config.title }}</h1>
+          <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-300 sm:mt-3 sm:leading-7">{{ config.description }}</p>
+          <p class="mt-2 hidden text-sm text-slate-400 sm:block">
             Para cadastrar um novo item, use o botão
             <span class="font-semibold text-white">Novo {{ config.singularTitle }}</span>
-            no canto direito.
+            abaixo.
           </p>
         </div>
 
-        <div class="flex flex-col gap-3 sm:flex-row">
+        <div class="flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center lg:w-auto lg:shrink-0">
           <input v-model="search" type="search" :placeholder="`Buscar em ${config.title.toLowerCase()}`"
-            class="min-w-[260px] rounded-2xl border border-white/10 bg-slate-900/70 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
+            class="w-full min-w-0 flex-1 rounded-2xl border border-white/10 bg-slate-900/70 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 sm:min-w-[200px]"
             @keydown.enter="loadItems" />
-          <button type="button"
-            class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/5"
-            @click="loadItems">
-            Buscar
-          </button>
-          <button type="button"
-            class="rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500"
-            @click="openCreateModal">
-            Novo {{ config.singularTitle }}
-          </button>
+          <div class="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
+            <button type="button"
+              class="rounded-2xl border border-white/10 px-4 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/5"
+              @click="loadItems">
+              Buscar
+            </button>
+            <button type="button"
+              class="col-span-1 rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500 sm:px-5"
+              @click="openCreateModal">
+              <span class="sm:hidden">Novo</span>
+              <span class="hidden sm:inline">Novo {{ config.singularTitle }}</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="rounded-3xl border border-white/10 bg-slate-900/70 p-6">
+    <section class="rounded-2xl border border-white/10 bg-slate-900/70 p-4 sm:rounded-3xl sm:p-6">
       <div v-if="successMessage"
         class="mb-4 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
         {{ successMessage }}
@@ -72,19 +75,19 @@
           <button type="button"
             class="flex w-full flex-col gap-4 px-4 py-4 text-left transition hover:bg-white/[0.03] sm:px-5"
             @click="toggleExpanded(item)">
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div class="min-w-0 flex-1">
-                <p class="text-base font-semibold text-white">
+                <p class="text-base font-semibold text-white break-words">
                   {{ formatValue(item[config.columns[0]?.key]) }}
                 </p>
-                <p class="mt-1 text-sm text-slate-400">
-                  Clique para {{ isExpanded(item) ? 'ocultar' : 'exibir' }} os detalhes completos.
+                <p class="mt-1 text-xs text-slate-400 sm:text-sm">
+                  Toque para {{ isExpanded(item) ? 'ocultar' : 'exibir' }} detalhes
                 </p>
               </div>
 
-              <div class="flex items-center gap-3">
+              <div class="flex shrink-0 items-center justify-between gap-3 sm:justify-end">
                 <span
-                  class="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-200">
+                  class="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-2.5 py-1 text-[10px] font-medium text-indigo-200 sm:px-3 sm:text-xs">
                   {{ config.singularTitle }}
                 </span>
                 <span :class="isExpanded(item) ? 'rotate-180' : ''"
@@ -92,7 +95,7 @@
               </div>
             </div>
 
-            <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-4">
               <div v-for="column in summaryColumns" :key="column.key"
                 class="rounded-xl border border-white/8 bg-slate-950/30 px-3 py-2">
                 <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
@@ -118,24 +121,24 @@
               </div>
             </div>
 
-            <div class="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-end">
+            <div class="mt-5 grid grid-cols-1 gap-2 sm:flex sm:flex-wrap sm:justify-end">
               <button v-if="config.routeName === 'minutes'" type="button"
-                class="rounded-xl border border-emerald-400/20 px-4 py-2 text-sm font-medium text-emerald-200 transition hover:bg-emerald-500/10"
+                class="w-full rounded-xl border border-emerald-400/20 px-4 py-2.5 text-sm font-medium text-emerald-200 transition hover:bg-emerald-500/10 sm:w-auto"
                 @click="openMinutePdf(item)">
                 PDF
               </button>
               <button v-if="config.routeName === 'minutes'" type="button"
-                class="rounded-xl border border-white/10 px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/5"
+                class="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-200 transition hover:bg-white/5 sm:w-auto"
                 @click="openMinutePrint(item)">
                 Visualizar impressão
               </button>
               <button type="button"
-                class="rounded-xl border border-white/10 px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/5"
+                class="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-200 transition hover:bg-white/5 sm:w-auto"
                 @click="openEditModal(item)">
                 Editar
               </button>
               <button type="button"
-                class="rounded-xl border border-rose-400/20 px-4 py-2 text-sm font-medium text-rose-200 transition hover:bg-rose-500/10"
+                class="w-full rounded-xl border border-rose-400/20 px-4 py-2.5 text-sm font-medium text-rose-200 transition hover:bg-rose-500/10 sm:w-auto"
                 @click="removeItem(item)">
                 Excluir
               </button>
@@ -145,13 +148,13 @@
       </div>
     </section>
 
-    <div v-if="isModalOpen" class="fixed inset-0 z-40 flex items-center justify-center bg-slate-950/75 px-4 py-6">
+    <div v-if="isModalOpen" class="fixed inset-0 z-40 flex items-end justify-center bg-slate-950/75 p-0 sm:items-center sm:p-4 sm:py-6">
       <div
-        class="max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-3xl border border-white/10 bg-slate-900 p-6 shadow-2xl shadow-slate-950/40">
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <p class="text-sm font-semibold uppercase tracking-[0.25em] text-indigo-300">Formulário</p>
-            <h2 class="mt-2 text-2xl font-bold text-white">
+        class="max-h-[95vh] w-full overflow-y-auto rounded-t-3xl border border-white/10 bg-slate-900 p-4 shadow-2xl shadow-slate-950/40 sm:max-h-[92vh] sm:max-w-4xl sm:rounded-3xl sm:p-6">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-indigo-300 sm:text-sm">Formulário</p>
+            <h2 class="mt-1 text-xl font-bold text-white sm:mt-2 sm:text-2xl">
               {{ editingId == null ? `Novo ${config.singularTitle}` : `Editar ${config.singularTitle}` }}
             </h2>
           </div>

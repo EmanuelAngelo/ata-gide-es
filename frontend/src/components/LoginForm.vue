@@ -1,15 +1,15 @@
 <template>
-  <div class="w-full max-w-md rounded-3xl border border-slate-200/80 bg-white p-8 shadow-2xl shadow-slate-950/10 backdrop-blur sm:p-10">
-    <div class="mb-8 text-center sm:text-left">
+  <div class="w-full max-w-md rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xl shadow-slate-950/10 backdrop-blur sm:rounded-3xl sm:p-8 md:p-10">
+    <div class="mb-6 text-center sm:mb-8 sm:text-left">
       <img
         src="https://gideoes.org.br/wp-content/uploads/2024/12/logo-branco-2048x665.png"
         alt="Gideões Internacionais no Brasil"
-        class="mx-auto h-12 w-auto sm:mx-0"
+        class="mx-auto h-10 w-auto sm:mx-0 sm:h-12"
       />
-      <p class="mt-6 text-xs font-semibold uppercase tracking-[0.24em] text-indigo-600">
+      <p class="mt-5 text-xs font-semibold uppercase tracking-[0.24em] text-indigo-600 sm:mt-6">
         Ata de reuniões
       </p>
-      <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900">
+      <h1 class="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:mt-3 sm:text-3xl">
         Entrar no sistema
       </h1>
       <p class="mt-3 text-sm leading-6 text-slate-500">

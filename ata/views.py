@@ -1,4 +1,4 @@
-from datetime import timezone
+from django.utils import timezone
 from io import BytesIO
 
 from django.db.models import Count, Q
@@ -21,6 +21,7 @@ from .filters import (
 )
 from .models import Attendance, ChurchSchedule, Meeting, Member, Minutes, PartnerChurch, GideonFriend
 from .serializers import (
+	AttendanceRosterItemSerializer,
 	AttendanceSerializer,
 	BulkAttendanceItemSerializer,
 	ChurchScheduleSerializer,
@@ -62,6 +63,56 @@ class MeetingViewSet(BaseViewSet):
 			absent_count=Count('attendances', filter=Q(attendances__status=Attendance.Status.AUSENTE), distinct=True),
 			justified_count=Count('attendances', filter=Q(attendances__status=Attendance.Status.JUSTIFICADA), distinct=True),
 		).select_related('minutes')
+
+	@action(detail=True, methods=['get'], url_path='workspace')
+	def workspace(self, request, pk=None):
+		meeting = self.get_object()
+		minutes_data = None
+		try:
+			minutes_data = MinutesSerializer(meeting.minutes).data
+		except Minutes.DoesNotExist:
+			pass
+
+		attendances = meeting.attendances.select_related('member').all()
+		attendance_by_member = {attendance.member_id: attendance for attendance in attendances}
+		active_members = Member.objects.filter(status=Member.Status.ATIVO).order_by('full_name')
+
+		roster = []
+		for member in active_members:
+			attendance = attendance_by_member.get(member.id)
+			roster.append({
+				'member_id': member.id,
+				'member_name': member.full_name,
+				'member_classification': member.classification,
+				'member_role': member.official_role,
+				'status': attendance.status if attendance else Attendance.Status.AUSENTE,
+				'arrival_time': attendance.arrival_time if attendance else '',
+				'observations': attendance.observations if attendance else '',
+				'attendance_id': attendance.id if attendance else None,
+			})
+
+		return Response({
+			'meeting': MeetingSerializer(meeting).data,
+			'minutes': minutes_data,
+			'roster': AttendanceRosterItemSerializer(roster, many=True).data,
+		})
+
+	@action(detail=True, methods=['post', 'patch', 'put'], url_path='minutes')
+	def manage_minutes(self, request, pk=None):
+		meeting = self.get_object()
+		created_by = request.user.get_full_name() or request.user.get_username()
+
+		try:
+			minute = meeting.minutes
+			partial = request.method == 'PATCH'
+			serializer = MinutesSerializer(minute, data=request.data, partial=partial)
+		except Minutes.DoesNotExist:
+			payload = {**request.data, 'meeting_id': meeting.id}
+			serializer = MinutesSerializer(data=payload)
+
+		serializer.is_valid(raise_exception=True)
+		serializer.save(created_by=created_by)
+		return Response(serializer.data, status=status.HTTP_200_OK)
 
 	@action(detail=True, methods=['get'], url_path='attendances')
 	def attendances(self, request, pk=None):
@@ -235,7 +286,7 @@ class ChurchScheduleViewSet(BaseViewSet):
 def dashboard_summary(request):
     today = timezone.localdate()
 
-    schedules_qs = ChurchSchedule.objects.filter(scheduled_date__gte=today)
+    schedules_qs = ChurchSchedule.objects.filter(date__gte=today)
 
     return Response({
         'members': Member.objects.count(),
@@ -246,7 +297,7 @@ def dashboard_summary(request):
         'gideon_friends': GideonFriend.objects.count(),
         'church_schedules': schedules_qs.count(),
         'upcoming_schedules': ChurchScheduleSerializer(
-            schedules_qs.order_by('scheduled_date')[:5],
+            schedules_qs.order_by('date')[:5],
             many=True,
         ).data,
     })

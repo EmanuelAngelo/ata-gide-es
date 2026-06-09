@@ -55,6 +55,12 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/reunioes/:id',
+      name: 'meeting-detail',
+      component: MeetingsPage,
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/membros',
       name: 'members',
       component: MembersPage,

@@ -3,14 +3,14 @@
     <div class="flex min-h-screen">
       <aside
         :class="[
-          'fixed inset-y-0 left-0 z-30 flex w-72 flex-col border-r border-white/10 bg-slate-900/95 px-4 py-6 backdrop-blur transition-transform duration-300 lg:static lg:translate-x-0',
+          'fixed inset-y-0 left-0 z-30 flex w-[min(100vw-3rem,18rem)] flex-col border-r border-white/10 bg-slate-900/95 px-3 py-5 backdrop-blur transition-transform duration-300 sm:w-72 sm:px-4 sm:py-6 lg:static lg:translate-x-0',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full',
         ]"
       >
-        <div class="flex items-center justify-between px-2">
-          <div>
+        <div class="flex items-center justify-between gap-2 px-1 sm:px-2">
+          <div class="min-w-0">
             <p class="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-300">ATA</p>
-            <h1 class="mt-2 text-xl font-semibold text-white">Painel administrativo</h1>
+            <h1 class="mt-1 truncate text-lg font-semibold text-white sm:mt-2 sm:text-xl">Painel administrativo</h1>
           </div>
           <button class="rounded-xl p-2 text-slate-400 hover:bg-white/5 lg:hidden" @click="sidebarOpen = false">
             <span class="mdi mdi-close text-xl" />
@@ -49,25 +49,25 @@
         </button>
       </aside>
 
-      <div class="flex min-h-screen flex-1 flex-col lg:pl-0">
-        <header class="sticky top-0 z-20 border-b border-white/10 bg-slate-950/80 px-4 py-4 backdrop-blur sm:px-6 lg:px-10">
-          <div class="flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-              <button class="rounded-2xl border border-white/10 p-3 text-slate-200 hover:bg-white/5 lg:hidden" @click="sidebarOpen = true">
+      <div class="flex min-h-screen min-w-0 flex-1 flex-col lg:pl-0">
+        <header class="sticky top-0 z-20 border-b border-white/10 bg-slate-950/80 px-3 py-3 backdrop-blur sm:px-6 sm:py-4 lg:px-10">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
+              <button class="shrink-0 rounded-2xl border border-white/10 p-2.5 text-slate-200 hover:bg-white/5 sm:p-3 lg:hidden" @click="sidebarOpen = true">
                 <span class="mdi mdi-menu text-xl" />
               </button>
-              <div>
-                <p class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Módulo ativo</p>
-                <h2 class="mt-1 text-lg font-semibold text-white">{{ currentLabel }}</h2>
+              <div class="min-w-0">
+                <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500 sm:text-xs sm:tracking-[0.25em]">Módulo ativo</p>
+                <h2 class="mt-0.5 truncate text-base font-semibold text-white sm:mt-1 sm:text-lg">{{ currentLabel }}</h2>
               </div>
             </div>
-            <div class="hidden rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-300 sm:block">
-              Conteúdo empurrado lateralmente com layout responsivo
+            <div v-if="username" class="hidden shrink-0 rounded-2xl border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 sm:block sm:px-4 sm:py-2 sm:text-sm">
+              {{ username }}
             </div>
           </div>
         </header>
 
-        <main class="flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
+        <main class="flex-1 overflow-x-hidden px-3 py-4 sm:px-6 sm:py-6 lg:px-10 lg:py-8">
           <slot />
         </main>
       </div>
@@ -99,7 +99,11 @@
   const router = useRouter()
   const sidebarOpen = ref(false)
 
-  const currentRouteName = computed(() => String(route.name ?? 'dashboard'))
+  const currentRouteName = computed(() => {
+    const name = String(route.name ?? 'dashboard')
+    if (name === 'meeting-detail') return 'meetings'
+    return name
+  })
   const currentLabel = computed(() => props.items.find((item) => item.key === currentRouteName.value)?.label || 'Dashboard')
 
   function navigateTo(routeName: NavigationItem['key']) {

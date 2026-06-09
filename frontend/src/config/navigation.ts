@@ -38,7 +38,7 @@ export const navigationItems: NavigationItem[] = [
     key: 'meetings',
     label: 'Reuniões',
     icon: 'mdi mdi-forum-outline',
-    description: 'Cadastro e acompanhamento das reuniões',
+    description: 'Reunião, ata e lista de presença no mesmo lugar',
   },
   {
     key: 'members',
@@ -50,7 +50,7 @@ export const navigationItems: NavigationItem[] = [
     key: 'minutes',
     label: 'Atas',
     icon: 'mdi mdi-file-document-edit-outline',
-    description: 'Registro e revisão das atas',
+    description: 'Consulta e edição das atas registradas',
   },
   {
     key: 'partner-churches',

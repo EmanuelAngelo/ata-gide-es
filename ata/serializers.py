@@ -198,3 +198,14 @@ class BulkAttendanceItemSerializer(serializers.Serializer):
     status = serializers.ChoiceField(choices=Attendance.Status.choices, default=Attendance.Status.AUSENTE)
     arrival_time = serializers.CharField(required=False, allow_blank=True, max_length=10)
     observations = serializers.CharField(required=False, allow_blank=True)
+
+
+class AttendanceRosterItemSerializer(serializers.Serializer):
+    member_id = serializers.IntegerField()
+    member_name = serializers.CharField()
+    member_classification = serializers.CharField()
+    member_role = serializers.CharField()
+    status = serializers.CharField()
+    arrival_time = serializers.CharField()
+    observations = serializers.CharField()
+    attendance_id = serializers.IntegerField(allow_null=True)

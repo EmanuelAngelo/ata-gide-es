@@ -40,10 +40,26 @@ cd frontend
 npm install
 ```
 
-Crie o arquivo `frontend/.env`:
+Crie o arquivo `frontend/.env` a partir do exemplo:
+
+```bash
+cp .env.example .env
+```
+
+Escolha para onde o frontend aponta:
 
 ```env
-VITE_API_BASE_URL=http://127.0.0.1:8000
+# local      → http://127.0.0.1:8002
+# production → https://emanuelcoutinho.pythonanywhere.com
+VITE_API_MODE=production
+```
+
+Para forçar uma URL específica (opcional):
+
+```env
+VITE_API_BASE_URL=https://emanuelcoutinho.pythonanywhere.com
+# ou
+VITE_API_BASE_URL=http://127.0.0.1:8002
 ```
 
 Depois execute:
@@ -55,7 +71,27 @@ npm run dev
 Frontend local:
 
 ```txt
-http://127.0.0.1:5173
+http://127.0.0.1:3000
+```
+
+## Como rodar com Docker
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
+
+Serviços:
+
+```txt
+Backend:  http://127.0.0.1:8000
+Frontend: http://127.0.0.1:3000
+```
+
+Para criar o primeiro usuário admin:
+
+```bash
+docker compose exec backend python manage.py createsuperuser
 ```
 
 ## Autenticação

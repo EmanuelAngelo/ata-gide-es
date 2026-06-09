@@ -1,0 +1,13 @@
+venv
+.venv
+__pycache__
+*.pyc
+*.pyo
+.git
+.gitignore
+db.sqlite3
+staticfiles_build
+.env
+frontend/node_modules
+frontend/dist
+*.md
