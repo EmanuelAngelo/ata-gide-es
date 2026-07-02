@@ -64,64 +64,81 @@
       </button>
     </div>
 
-    <div v-if="isModalOpen" class="mobile-overlay fixed inset-0 z-40 flex items-end justify-center bg-slate-950/75 sm:items-center sm:p-4">
-      <div class="mobile-sheet max-h-[95dvh] w-full max-w-full overflow-y-auto overscroll-contain rounded-t-3xl border border-white/10 bg-slate-900 p-4 sm:max-w-lg sm:rounded-3xl sm:p-6">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <h3 class="text-xl font-bold text-white">Nova reunião</h3>
-            <p class="mt-1 text-sm text-slate-400">Após criar, você já poderá registrar a ata e a presença.</p>
+    <Teleport to="body">
+      <div
+        v-if="isModalOpen"
+        class="mobile-overlay fixed inset-0 z-50 flex items-end justify-center bg-slate-950/75 sm:items-center sm:p-6"
+        @click.self="closeModal"
+      >
+        <div
+          class="mobile-sheet max-h-[95dvh] w-full overflow-y-auto overscroll-contain rounded-t-3xl border border-white/10 bg-slate-900 p-4 shadow-2xl shadow-slate-950/40 sm:max-h-[90dvh] sm:w-full sm:max-w-2xl sm:rounded-3xl sm:p-8 lg:max-w-4xl"
+        >
+          <div class="flex items-start justify-between gap-4">
+            <div class="min-w-0">
+              <h3 class="text-xl font-bold text-white sm:text-2xl">Nova reunião</h3>
+              <p class="mt-1 text-sm text-slate-400 sm:text-base">
+                Após criar, você já poderá registrar a ata e a presença.
+              </p>
+            </div>
+            <button type="button" class="shrink-0 rounded-2xl border border-white/10 p-2 text-slate-300 hover:bg-white/5" @click="closeModal">
+              <span class="mdi mdi-close text-xl" />
+            </button>
           </div>
-          <button type="button" class="rounded-2xl border border-white/10 p-2 text-slate-300" @click="closeModal">
-            <span class="mdi mdi-close text-xl" />
-          </button>
-        </div>
 
-        <form class="mt-6 grid gap-4" @submit.prevent="submitCreate">
-          <div v-for="field in createFields" :key="field.name">
-            <label :for="`create-${field.name}`" class="mb-2 block text-sm font-medium text-slate-200">{{ field.label }}</label>
-            <select
-              v-if="field.type === 'select'"
-              :id="`create-${field.name}`"
-              v-model="formState[field.name]"
-              class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-indigo-500"
+          <form class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2" @submit.prevent="submitCreate">
+            <div
+              v-for="field in createFields"
+              :key="field.name"
+              class="min-w-0"
+              :class="isFullWidthField(field.name) ? 'sm:col-span-2' : ''"
             >
-              <option v-for="option in field.options" :key="option.value" :value="option.value">{{ option.label }}</option>
-            </select>
-            <textarea
-              v-else-if="field.type === 'textarea'"
-              :id="`create-${field.name}`"
-              v-model="formState[field.name]"
-              rows="2"
-              class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-indigo-500"
-            />
-            <input
-              v-else
-              :id="`create-${field.name}`"
-              v-model="formState[field.name]"
-              :type="field.type"
-              class="block w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-indigo-500"
-            />
-          </div>
+              <label :for="`create-${field.name}`" class="mb-2 block text-sm font-medium text-slate-200">{{ field.label }}</label>
+              <select
+                v-if="field.type === 'select'"
+                :id="`create-${field.name}`"
+                v-model="formState[field.name]"
+                class="block w-full min-w-0 rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none focus:border-indigo-500 sm:text-sm"
+              >
+                <option v-for="option in field.options" :key="option.value" :value="option.value">{{ option.label }}</option>
+              </select>
+              <textarea
+                v-else-if="field.type === 'textarea'"
+                :id="`create-${field.name}`"
+                v-model="formState[field.name]"
+                rows="2"
+                class="block w-full min-w-0 rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none focus:border-indigo-500 sm:text-sm"
+              />
+              <input
+                v-else
+                :id="`create-${field.name}`"
+                v-model="formState[field.name]"
+                :type="field.type"
+                class="block w-full min-w-0 rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-base text-white outline-none focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
 
-          <p v-if="errorMessage" class="rounded-2xl border border-rose-400/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
-            {{ errorMessage }}
-          </p>
+            <p v-if="errorMessage" class="rounded-2xl border border-rose-400/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-200 sm:col-span-2">
+              {{ errorMessage }}
+            </p>
 
-          <button
-            type="submit"
-            :disabled="submitting"
-            class="w-full rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:opacity-70"
-          >
-            {{ submitting ? 'Criando...' : 'Criar e abrir reunião' }}
-          </button>
-        </form>
+            <div class="sm:col-span-2 sm:flex sm:justify-end">
+              <button
+                type="submit"
+                :disabled="submitting"
+                class="w-full rounded-2xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:opacity-70 sm:w-auto sm:min-w-[220px]"
+              >
+                {{ submitting ? 'Criando...' : 'Criar e abrir reunião' }}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { onMounted, reactive, ref, watch } from 'vue'
+  import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
   import { ApiError } from '@/api'
   import { createResource, listResources, type ResourceRecord } from '@/api/resources'
   import { resourceConfigs } from '@/config/resources'
@@ -156,6 +173,10 @@
     })
   }
 
+  function isFullWidthField(fieldName: string) {
+    return ['title', 'location', 'leader', 'bible_reading'].includes(fieldName)
+  }
+
   async function loadMeetings() {
     const token = authStore.accessToken
     if (!token) return
@@ -174,10 +195,12 @@
     resetForm()
     errorMessage.value = ''
     isModalOpen.value = true
+    document.body.style.overflow = 'hidden'
   }
 
   function closeModal() {
     isModalOpen.value = false
+    document.body.style.overflow = ''
   }
 
   async function submitCreate() {
@@ -219,6 +242,10 @@
   onMounted(() => {
     resetForm()
     loadMeetings()
+  })
+
+  onUnmounted(() => {
+    document.body.style.overflow = ''
   })
 
   defineExpose({ loadMeetings })
