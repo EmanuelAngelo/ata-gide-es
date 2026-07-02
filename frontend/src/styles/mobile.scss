@@ -43,6 +43,12 @@ body {
   --v-layout-bottom: 0px;
 }
 
+.app-main:has(.dashboard-shell) {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
 /* Modais bottom-sheet com safe area (notch / barra inferior) */
 .mobile-sheet {
   padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
